@@ -1,4 +1,4 @@
-package hu.herold.projects.snoozability;
+package hu.herold.projects.snoozability.ui.alarms;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,11 +9,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import hu.herold.projects.snoozability.R;
+import hu.herold.projects.snoozability.SnoozabilityApplication;
+
 public class AlarmsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SnoozabilityApplication.injector.inject(this);
+
         setContentView(R.layout.activity_alarms);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
