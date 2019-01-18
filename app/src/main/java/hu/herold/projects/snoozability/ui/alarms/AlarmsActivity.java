@@ -1,37 +1,83 @@
 package hu.herold.projects.snoozability.ui.alarms;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.SnoozabilityApplication;
+import hu.herold.projects.snoozability.model.Alarm;
+import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 
-public class AlarmsActivity extends AppCompatActivity {
+public class AlarmsActivity extends AppCompatActivity implements AlarmsScreen {
+
+    public static final String ALARM_KEY = "ALARM_KEY";
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.alarmsRecyclerView)
+    RecyclerView alarmsRecyclerView;
+
+    @Inject
+    AlarmsPresenter alarmsPresenter;
+
+    private AlarmsAdapter alarmsAdapter;
+    private List<Alarm> alarms;
+
+    public AlarmsActivity() {
+        SnoozabilityApplication.injector.inject(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SnoozabilityApplication.injector.inject(this);
-
         setContentView(R.layout.activity_alarms);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        alarms = new ArrayList<>();
+
+        LinearLayoutManager llm = new LinearLayoutManager(AlarmsActivity.this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        alarmsRecyclerView.setLayoutManager(llm);
+
+        alarmsAdapter = new AlarmsAdapter(AlarmsActivity.this, alarms);
+        alarmsRecyclerView.setAdapter(alarmsAdapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        alarmsPresenter.attachScreen(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        alarmsPresenter.getAlarms();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        alarmsPresenter.detachScreen();
     }
 
     @Override
@@ -54,5 +100,24 @@ public class AlarmsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showAlarms(List<Alarm> alarmsList) {
+        alarms.clear();
+        alarms.addAll(alarmsList);
+
+        alarmsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @OnClick(R.id.fab)
+    public void createNewAlarm() {
+        Intent intent = new Intent(AlarmsActivity.this, AlarmDetailsActivity.class);
+        startActivity(intent);
     }
 }
