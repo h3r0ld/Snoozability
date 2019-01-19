@@ -14,6 +14,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "APP_CENTER_SECRET", "\"${System.env.APP_CENTER_SECRET}\"")
+        }
+        debug {
+            buildConfigField("String", "BUILD_TIME", "\"0\"")
+            resValue("string", "build_time", "0")
+            buildConfigField("String", "APP_CENTER_SECRET", "\"${System.env.APP_CENTER_SECRET}\"")
         }
     }
     dataBinding {

@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hu.herold.projects.snoozability.BuildConfig;
 import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.model.Alarm;
@@ -57,10 +58,10 @@ public class AlarmsActivity extends AppCompatActivity implements AlarmsScreen {
 
         setSupportActionBar(toolbar);
 
-        AppCenter.start(getApplication(), getString(R.string.app_center_secret),
+        AppCenter.start(getApplication(), BuildConfig.APP_CENTER_SECRET,
                 Analytics.class, Crashes.class);
 
-        AppCenter.start(getApplication(), getString(R.string.app_center_secret), Distribute.class);
+        AppCenter.start(getApplication(), BuildConfig.APP_CENTER_SECRET, Distribute.class);
 
 
         alarms = new ArrayList<>();
