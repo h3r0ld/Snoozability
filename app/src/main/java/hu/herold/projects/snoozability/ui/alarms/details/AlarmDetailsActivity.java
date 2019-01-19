@@ -13,10 +13,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.google.gson.Gson;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
 
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.honorato.multistatetogglebutton.ToggleButton;
@@ -29,9 +25,12 @@ import butterknife.OnClick;
 import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.model.Alarm;
+import hu.herold.projects.snoozability.model.SnoozeType;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity;
+import hu.herold.projects.snoozability.ui.base.BaseActivity;
+import hu.herold.projects.snoozability.ui.validation.Validator;
 
-public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDetailsScreen {
+public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsScreen {
 
     @BindView(R.id.alarmTimeTextView)
     TextView alarmTimeTextView;
@@ -59,6 +58,8 @@ public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDeta
     @Inject
     AlarmDetailsPresenter alarmDetailsPresenter;
 
+    @Inject
+    Validator validator;
 
     private Alarm alarm;
 
@@ -100,11 +101,12 @@ public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDeta
 
         if (intent != null && intent.getExtras() != null && intent.getExtras().containsKey(AlarmsActivity.ALARM_KEY)) {
             String json = intent.getExtras().getString(AlarmsActivity.ALARM_KEY);
-            alarm = (new Gson()).fromJson(json, Alarm.class);
+            alarm = Alarm.fromJson(json);
         } else {
             alarm = Alarm.builder()
                     .alarmHour(8)
                     .alarmMinutes(0)
+                    .snoozeTime(9)
                     .label(getString(R.string.alarm_label_placeholder))
                     .enabled(true)
                     .build();
@@ -113,9 +115,16 @@ public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDeta
         showAlarm();
     }
 
-    @Override
-    public void showError(String message) {
-
+    @OnClick({R.id.alarmTimeTextView, R.id.fabSave})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.alarmTimeTextView:
+                showTimePickerDialog();
+                break;
+            case R.id.fabSave:
+                saveAlarm();
+                break;
+        }
     }
 
     @Override
@@ -144,66 +153,22 @@ public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDeta
     }
 
     private void setSnoozeInputs() {
-        switch (snoozeTypeMSTB.getValue()) {
-            case 0:
-                setSnoozeInputsVisibility(View.GONE, View.GONE);
-                break;
-            case 1:
-                setSnoozeInputsVisibility(View.VISIBLE, View.VISIBLE);
-                break;
-            case 2:
-                setSnoozeInputsVisibility(View.VISIBLE, View.GONE);
-                break;
-            default:
-                break;
+        if (snoozeTypeMSTB.getValue() == SnoozeType.NEVER) {
+            setSnoozeInputsVisibility(View.GONE, View.GONE);
+        }
+
+        if (snoozeTypeMSTB.getValue() == SnoozeType.CUSTOM) {
+            setSnoozeInputsVisibility(View.VISIBLE, View.VISIBLE);
+        }
+
+        if (snoozeTypeMSTB.getValue() == SnoozeType.INFINITE) {
+            setSnoozeInputsVisibility(View.VISIBLE, View.GONE);
         }
     }
 
     private void setSnoozeInputsVisibility(int timeVisibility, int countVisibility) {
-        // Snooze Time
         snoozeTimeTextInput.setVisibility(timeVisibility);
-
-        // Max Snooze Count
         snoozeCountTextInput.setVisibility(countVisibility);
-    }
-
-    @OnClick({R.id.alarmTimeTextView, R.id.fabSave})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.alarmTimeTextView:
-                showTimePickerDialog();
-                break;
-            case R.id.fabSave:
-                saveAlarm();
-                break;
-        }
-    }
-
-    private void updateAlarmBySelection() {
-        switch (snoozeTypeMSTB.getValue()) {
-            case 0:
-                alarm.setSnoozeTime(null);
-                alarm.setMaxSnoozeCount(0);
-                break;
-            case 1:
-                String snoozeCountEditTextValue = snoozeCountEditText.getText().toString();
-                if (!snoozeCountEditTextValue.isEmpty()) {
-                    alarm.setMaxSnoozeCount(Integer.parseInt(snoozeCountEditTextValue));
-                }
-
-                String snoozeTimeEditTextValue = snoozeTimeEditText.getText().toString();
-                if (!snoozeTimeEditTextValue.isEmpty()) {
-                    alarm.setSnoozeTime(Integer.parseInt(snoozeTimeEditTextValue));
-                }
-                break;
-            case 2:
-                alarm.setMaxSnoozeCount(null);
-                break;
-            default:
-                break;
-        }
-
-        alarm.setLabel(alarmTitleEditText.getText() + "");
     }
 
     private void showTimePickerDialog() {
@@ -216,7 +181,7 @@ public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDeta
             }
         }, alarm.getAlarmHour(), alarm.getAlarmMinutes(), true);
 
-        timePickerDialog.setTitle("Alarm time");
+        timePickerDialog.setTitle(getString(R.string.alarm_time_dialog_title));
         timePickerDialog.show();
     }
 
@@ -225,12 +190,12 @@ public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDeta
 
         boolean isValid = true;
 
-        if (snoozeTypeMSTB.getValue() > 0) {
-            isValid &= validateEditText(snoozeTimeTextInput, snoozeTimeEditText);
+        if (snoozeTypeMSTB.getValue() != SnoozeType.NEVER) {
+            isValid = validator.validateEditText(snoozeTimeTextInput, snoozeTimeEditText);
         }
 
-        if (snoozeTypeMSTB.getValue() == 1) {
-            isValid &= validateEditText(snoozeCountTextInput, snoozeCountEditText);
+        if (snoozeTypeMSTB.getValue() == SnoozeType.CUSTOM) {
+            isValid &= validator.validateEditText(snoozeCountTextInput, snoozeCountEditText);
         }
 
         if (isValid) {
@@ -240,15 +205,28 @@ public class AlarmDetailsActivity extends AppCompatActivity implements AlarmDeta
         }
     }
 
-    private boolean validateEditText(TextInputLayout textInputLayout, TextInputEditText textInputEditText) {
-        String editTextValue = textInputEditText.getText().toString();
-
-        if (editTextValue.isEmpty()) {
-            textInputLayout.setError(getResources().getText(R.string.required_field));
-            return false;
-        } else {
-            textInputLayout.setError(null);
-            return true;
+    private void updateAlarmBySelection() {
+        if (snoozeTypeMSTB.getValue() == SnoozeType.NEVER) {
+            alarm.setSnoozeTime(null);
+            alarm.setMaxSnoozeCount(0);
         }
+
+        if (snoozeTypeMSTB.getValue() == SnoozeType.CUSTOM) {
+            String snoozeCountEditTextValue = snoozeCountEditText.getText().toString();
+            if (!snoozeCountEditTextValue.isEmpty()) {
+                alarm.setMaxSnoozeCount(Integer.parseInt(snoozeCountEditTextValue));
+            }
+
+            String snoozeTimeEditTextValue = snoozeTimeEditText.getText().toString();
+            if (!snoozeTimeEditTextValue.isEmpty()) {
+                alarm.setSnoozeTime(Integer.parseInt(snoozeTimeEditTextValue));
+            }
+        }
+
+        if (snoozeTypeMSTB.getValue() == SnoozeType.INFINITE) {
+            alarm.setMaxSnoozeCount(null);
+        }
+
+        alarm.setLabel(alarmTitleEditText.getText().toString());
     }
 }

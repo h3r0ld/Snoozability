@@ -13,6 +13,7 @@ import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsPresenter;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsPresenter;
+import hu.herold.projects.snoozability.ui.validation.Validator;
 
 @Module
 public class UIModule {
@@ -23,38 +24,44 @@ public class UIModule {
     }
 
     @Provides
-    public Context provideContext() {
+    Context provideContext() {
         return context;
     }
 
     @Provides
     @Singleton
-    public AlarmsActivity provideAlarmsActivity() {
+    AlarmsActivity provideAlarmsActivity() {
         return new AlarmsActivity();
     }
 
     @Provides
     @Singleton
-    public AlarmsPresenter provideAlarmsPresenter() {
+    AlarmsPresenter provideAlarmsPresenter() {
         return new AlarmsPresenter();
     }
 
     @Provides
     @Singleton
-    public AlarmDetailsPresenter provideAlarmDetailsPresenter() {
+    AlarmDetailsPresenter provideAlarmDetailsPresenter() {
         return new AlarmDetailsPresenter();
     }
 
     @Provides
     @Singleton
-    public AlarmDetailsActivity provideAlarmDetailsActivity() {
+    AlarmDetailsActivity provideAlarmDetailsActivity() {
         return new AlarmDetailsActivity();
     }
 
 
     @Provides
     @Singleton
-    public Executor provideExecutor() {
+    Executor provideExecutor() {
         return Executors.newFixedThreadPool(1);
+    }
+
+    @Provides
+    @Singleton
+    Validator provideValidator() {
+        return new Validator();
     }
 }
