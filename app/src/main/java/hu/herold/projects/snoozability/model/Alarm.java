@@ -1,5 +1,7 @@
 package hu.herold.projects.snoozability.model;
 
+import com.google.gson.Gson;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +28,12 @@ public class Alarm {
     private Integer alarmVolume;
 
     private boolean enabled;
+
+    public String toJson() {
+        return (new Gson()).toJson(this);
+    }
+
+    public static Alarm fromJson(String json) {
+        return (new Gson()).fromJson(json, Alarm.class);
+    }
 }

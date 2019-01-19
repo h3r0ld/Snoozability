@@ -14,4 +14,6 @@
     <string name="required_field">Field is required!</string>
     <string name="validation_error">Can\'t save alarm!</string>
     <string name="time_format">%d:%02d</string>
+    <string name="alarm_time_dialog_title">Alarm time</string>
+    <string name="unexpected_error">Unexpected Error!</string>
 </resources>

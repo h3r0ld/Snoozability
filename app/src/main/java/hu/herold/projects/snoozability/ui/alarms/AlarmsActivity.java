@@ -3,12 +3,9 @@ package hu.herold.projects.snoozability.ui.alarms;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
@@ -28,8 +25,9 @@ import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.model.Alarm;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
+import hu.herold.projects.snoozability.ui.base.BaseActivity;
 
-public class AlarmsActivity extends AppCompatActivity implements AlarmsScreen {
+public class AlarmsActivity extends BaseActivity implements AlarmsScreen {
 
     public static final String ALARM_KEY = "ALARM_KEY";
 
@@ -53,16 +51,15 @@ public class AlarmsActivity extends AppCompatActivity implements AlarmsScreen {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // AppCenter Analytics, Crashes and Distribute initialization
+        AppCenter.start(getApplication(), BuildConfig.APP_CENTER_SECRET,
+                Analytics.class, Crashes.class, Distribute.class);
+
         setContentView(R.layout.activity_alarms);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
-        AppCenter.start(getApplication(), BuildConfig.APP_CENTER_SECRET,
-                Analytics.class, Crashes.class);
-
-        AppCenter.start(getApplication(), BuildConfig.APP_CENTER_SECRET, Distribute.class);
-
 
         alarms = new ArrayList<>();
 
@@ -93,38 +90,11 @@ public class AlarmsActivity extends AppCompatActivity implements AlarmsScreen {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_alarms, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void showAlarms(List<Alarm> alarmsList) {
         alarms.clear();
         alarms.addAll(alarmsList);
 
         alarmsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showError(String message) {
-
     }
 
     @OnClick(R.id.fab)

@@ -48,17 +48,10 @@ public class AlarmsPresenter extends Presenter<AlarmsScreen> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleGetAlarmsEvent(final GetAlarmsEvent event) {
-        if (event.getThrowable() != null) {
-            event.getThrowable().printStackTrace();
+        boolean isExceptionPresent = handleEventException(event);
 
-            if (screen != null) {
-                screen.showError(event.getThrowable().getMessage());
-            }
-        } else {
-            if (screen != null) {
+        if (!isExceptionPresent && screen != null) {
                 screen.showAlarms(event.getAlarms());
-            }
         }
-
     }
 }
