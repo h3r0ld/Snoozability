@@ -35,8 +35,6 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
 
     public static final String ALARM_KEY = "ALARM_KEY";
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
     @BindView(R.id.alarmsRecyclerView)
@@ -62,8 +60,6 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
 
         setContentView(R.layout.activity_alarms);
         ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
 
         alarms = new ArrayList<>();
 
