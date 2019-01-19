@@ -213,7 +213,9 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
         if (snoozeTypeMSTB.getValue() == SnoozeType.CUSTOM) {
             String snoozeCountEditTextValue = snoozeCountEditText.getText().toString();
             if (!snoozeCountEditTextValue.isEmpty()) {
-                alarm.setMaxSnoozeCount(Integer.parseInt(snoozeCountEditTextValue));
+                int snoozeCount = Integer.parseInt(snoozeCountEditTextValue);
+                alarm.setMaxSnoozeCount(snoozeCount);
+                alarm.setCurrentSnoozeCount(snoozeCount);
             }
 
             String snoozeTimeEditTextValue = snoozeTimeEditText.getText().toString();
