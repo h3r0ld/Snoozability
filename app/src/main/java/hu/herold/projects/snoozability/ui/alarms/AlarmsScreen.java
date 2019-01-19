@@ -10,4 +10,8 @@ public interface AlarmsScreen extends Screen {
     void showAlarms(List<Alarm> alarms);
 
     void showError(String message);
+
+    void handleAlarmDeleted(Alarm alarm);
+
+    void handleAlarmRestored(Alarm alarm);
 }

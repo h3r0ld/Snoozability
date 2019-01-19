@@ -1,50 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.card.MaterialCardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/card_margin"
-    app:contentPadding="16dp">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/layout"
+    <RelativeLayout
+        android:id="@+id/viewBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:background="@color/colorAccent">
 
-        <RelativeLayout
-            android:id="@+id/firstRowLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/alarmTimeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="@string/default_alarm_time"
-                android:textSize="40sp"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/alarmEnabledSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
-
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/deleteIcon"
+            android:layout_width="@dimen/ic_delete"
+            android:layout_height="@dimen/ic_delete"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padd_10"
+            android:src="@drawable/fab_add" />
 
         <TextView
-            android:id="@+id/alarmTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:text="@string/alarm_title"/>
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padd_10"
+            android:layout_toLeftOf="@id/deleteIcon"
+            android:text="@string/delete"
+            android:textColor="#fff"
+            android:textSize="13dp" />
 
-</android.support.design.card.MaterialCardView>
+    </RelativeLayout>
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/viewForeground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_margin"
+        app:contentPadding="16dp">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/firstRowLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/alarmTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/default_alarm_time"
+                    android:textSize="40sp"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/alarmEnabledSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/alarmTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="@string/alarm_title"/>
+        </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+</FrameLayout>

@@ -3,6 +3,7 @@ package hu.herold.projects.snoozability.ui.alarms;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.card.MaterialCardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -34,6 +35,8 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
     private Context context;
     private List<Alarm> alarms;
 
+    private int lastDeletedIndex;
+
     public AlarmsAdapter(Context context, List<Alarm> alarms) {
         this.context = context;
         this.alarms= alarms;
@@ -63,6 +66,21 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
         return alarms.size();
     }
 
+    public void removeItem(int position) {
+        alarms.remove(position);
+        notifyItemRemoved(position);
+        lastDeletedIndex = position;
+    }
+
+    public void removeItem(Alarm alarm) {
+        int position = alarms.indexOf(alarm);
+        removeItem(position);
+    }
+
+    public void restoreItem(Alarm alarm) {
+        alarms.add(lastDeletedIndex, alarm);
+        notifyItemInserted(lastDeletedIndex);
+    }
 
     @Data
     @EqualsAndHashCode(callSuper = true)
@@ -75,6 +93,10 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
         TextView alarmTitleTextView;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.viewBackground)
+        RelativeLayout viewBackground;
+        @BindView(R.id.viewForeground)
+        MaterialCardView viewForeground;
 
         private final Context context;
         private Alarm alarm;

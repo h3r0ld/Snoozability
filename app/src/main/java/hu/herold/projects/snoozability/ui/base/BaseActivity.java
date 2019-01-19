@@ -15,6 +15,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Screen {
     @Override
     public void showError(String message) {
         View rootView = viewGroup.getChildAt(0);
-        Snackbar.make(rootView, message, Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(rootView, message, Snackbar.LENGTH_LONG).show();
     }
 }

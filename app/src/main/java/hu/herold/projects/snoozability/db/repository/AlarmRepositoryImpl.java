@@ -28,7 +28,11 @@ public class AlarmRepositoryImpl implements AlarmRepository {
 
     @Override
     public void saveAlarm(AlarmEntity alarmEntity) throws Exception {
-        alarmDao.saveAlarm(alarmEntity);
+        if (alarmEntity.getId() != null) {
+            alarmDao.updateAlarm(alarmEntity);
+        } else {
+            alarmDao.saveAlarm(alarmEntity);
+        }
     }
 
     @Override

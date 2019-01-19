@@ -11,6 +11,6 @@ import lombok.EqualsAndHashCode;
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SaveAlarmEvent extends EventBase {
+public class DeleteAlarmEvent extends EventBase {
     private Alarm alarm;
 }

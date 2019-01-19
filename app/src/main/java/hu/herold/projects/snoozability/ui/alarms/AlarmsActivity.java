@@ -1,11 +1,15 @@
 package hu.herold.projects.snoozability.ui.alarms;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
 
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
@@ -27,7 +31,7 @@ import hu.herold.projects.snoozability.model.Alarm;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import hu.herold.projects.snoozability.ui.base.BaseActivity;
 
-public class AlarmsActivity extends BaseActivity implements AlarmsScreen {
+public class AlarmsActivity extends BaseActivity implements AlarmsScreen, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     public static final String ALARM_KEY = "ALARM_KEY";
 
@@ -69,6 +73,9 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen {
 
         alarmsAdapter = new AlarmsAdapter(AlarmsActivity.this, alarms);
         alarmsRecyclerView.setAdapter(alarmsAdapter);
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(alarmsRecyclerView);
     }
 
     @Override
@@ -95,6 +102,51 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen {
         alarms.addAll(alarmsList);
 
         alarmsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void handleAlarmDeleted(final Alarm alarm) {
+        // get the removed item name to display it in snack bar
+        String name = alarm.getLabel();
+
+        if (name.length() > 20) {
+            name = name.substring(0, 20) + getString(R.string.dotdotdot);
+        }
+
+        // remove the item from recycler view
+        alarmsAdapter.removeItem(alarm);
+
+        Snackbar.make(alarmsRecyclerView, name + " removed from alarms!", Snackbar.LENGTH_LONG)
+            .setAction("Restore", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alarmsPresenter.saveAlarm(alarm);
+                }
+            })
+            .setActionTextColor(Color.YELLOW)
+            .show();
+
+    }
+
+    @Override
+    public void handleAlarmRestored(Alarm alarm) {
+        String name = alarm.getLabel();
+
+        if (name.length() > 20) {
+            name = name.substring(0, 20) + getString(R.string.dotdotdot);
+        }
+
+        alarmsAdapter.restoreItem(alarm);
+
+        Snackbar.make(alarmsRecyclerView, name + " restored!", Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof AlarmsAdapter.ViewHolder) {
+            alarmsPresenter.deleteAlarm(((AlarmsAdapter.ViewHolder) viewHolder).getAlarm());
+        }
     }
 
     @OnClick(R.id.fab)

@@ -16,4 +16,6 @@
     <string name="time_format">%d:%02d</string>
     <string name="alarm_time_dialog_title">Alarm time</string>
     <string name="unexpected_error">Unexpected Error!</string>
+    <string name="delete">Delete</string>
+    <string name="dotdotdot">...</string>
 </resources>

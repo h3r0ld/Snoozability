@@ -10,7 +10,10 @@ import javax.inject.Inject;
 
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.interactor.alarms.AlarmsInteractor;
+import hu.herold.projects.snoozability.interactor.alarms.event.DeleteAlarmEvent;
 import hu.herold.projects.snoozability.interactor.alarms.event.GetAlarmsEvent;
+import hu.herold.projects.snoozability.interactor.alarms.event.SaveAlarmEvent;
+import hu.herold.projects.snoozability.model.Alarm;
 import hu.herold.projects.snoozability.ui.base.Presenter;
 
 public class AlarmsPresenter extends Presenter<AlarmsScreen> {
@@ -46,12 +49,48 @@ public class AlarmsPresenter extends Presenter<AlarmsScreen> {
         });
     }
 
+    public void deleteAlarm(final Alarm alarm) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                alarmsInteractor.deleteAlarm(alarm);
+            }
+        });
+    }
+
+    public void saveAlarm(final Alarm alarm) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                alarmsInteractor.saveAlarm(alarm);
+            }
+        });
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleGetAlarmsEvent(final GetAlarmsEvent event) {
         boolean isExceptionPresent = handleEventException(event);
 
         if (!isExceptionPresent && screen != null) {
                 screen.showAlarms(event.getAlarms());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleDeleteAlarmsEvent(final DeleteAlarmEvent event) {
+        boolean isExceptionPresent = handleEventException(event);
+
+        if (!isExceptionPresent && screen != null) {
+            screen.handleAlarmDeleted(event.getAlarm());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleSaveAlarmEvent(final SaveAlarmEvent event) {
+        boolean isExceptionPresent = handleEventException(event);
+
+        if (!isExceptionPresent && screen != null) {
+            screen.handleAlarmRestored(event.getAlarm());
         }
     }
 }
