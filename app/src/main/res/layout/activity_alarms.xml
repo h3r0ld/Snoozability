@@ -22,12 +22,15 @@
 
     <include layout="@layout/content_alarms" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/fab_add" />
+        android:src="@drawable/outline_alarm_add_white_24"
+        app:fab_colorNormal="@color/colorPrimaryDark"
+        app:fab_colorPressed="@color/colorPrimary"
+        app:fab_size="normal" />
 
 </android.support.design.widget.CoordinatorLayout>

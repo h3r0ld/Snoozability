@@ -9,7 +9,7 @@
         android:id="@+id/viewBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_margin="8dp"
         android:background="@color/colorAccent">
 
         <ImageView
@@ -19,7 +19,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/padd_10"
-            android:src="@drawable/fab_add" />
+            android:src="@drawable/outline_delete_sweep_white_36" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,13 +61,22 @@
                     android:text="@string/default_alarm_time"
                     android:textSize="40sp"/>
 
-                <android.support.v7.widget.SwitchCompat
+                <com.polyak.iconswitch.IconSwitch
                     android:id="@+id/alarmEnabledSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true" />
+                    android:layout_alignParentRight="true"
+                    app:isw_icon_left="@drawable/outline_alarm_off_black_36"
+                    app:isw_icon_right="@drawable/outline_alarm_on_black_36"
+                    app:isw_background_color="@color/white"
+                    app:isw_thumb_color_left="@color/colorPrimaryDark"
+                    app:isw_thumb_color_right="@color/colorPrimaryDark"
+                    app:isw_inactive_tint_icon_left="@color/colorPrimary"
+                    app:isw_inactive_tint_icon_right="@color/colorPrimary"
+                    app:isw_active_tint_icon_left="@android:color/white"
+                    app:isw_active_tint_icon_right="@android:color/white"/>
 
             </RelativeLayout>
 

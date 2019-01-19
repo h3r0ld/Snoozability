@@ -100,7 +100,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
-        android:src="@drawable/fab_add"
+        android:src="@drawable/outline_save_white_24"
         app:fab_colorNormal="@color/colorPrimaryDark"
         app:fab_colorPressed="@color/colorPrimary"
         app:fab_size="normal"/>
