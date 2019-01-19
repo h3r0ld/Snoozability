@@ -14,6 +14,9 @@ import android.widget.TimePicker;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.honorato.multistatetogglebutton.ToggleButton;

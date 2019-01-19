@@ -27,7 +27,9 @@ import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder> {
     private Context context;
     private List<Alarm> alarms;

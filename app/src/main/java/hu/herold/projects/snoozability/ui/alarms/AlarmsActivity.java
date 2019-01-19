@@ -10,6 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.distribute.Distribute;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +56,12 @@ public class AlarmsActivity extends AppCompatActivity implements AlarmsScreen {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        AppCenter.start(getApplication(), getString(R.string.app_center_secret),
+                Analytics.class, Crashes.class);
+
+        AppCenter.start(getApplication(), getString(R.string.app_center_secret), Distribute.class);
+
 
         alarms = new ArrayList<>();
 
