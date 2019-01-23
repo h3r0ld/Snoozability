@@ -38,9 +38,17 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
 
     private int lastDeletedIndex;
 
+    protected AlarmEnabledChangeListener alarmEnabledChangeListener;
+
     public AlarmsAdapter(Context context, List<Alarm> alarms) {
         this.context = context;
         this.alarms= alarms;
+
+        if (!(context instanceof AlarmEnabledChangeListener)) {
+            throw new IllegalArgumentException("Activity must implement AlarmEnabledChangeListener!");
+        } else {
+            alarmEnabledChangeListener = (AlarmEnabledChangeListener) context;
+        }
     }
 
     @NonNull
@@ -52,7 +60,7 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         Alarm alarm = alarms.get(position);
 
         viewHolder.setAlarm(alarm);
@@ -65,6 +73,12 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
             viewHolder.alarmEnabledSwitch.setChecked(IconSwitch.Checked.LEFT);
         }
 
+        viewHolder.alarmEnabledSwitch.setCheckedChangeListener(new IconSwitch.CheckedChangeListener() {
+            @Override
+            public void onCheckChanged(IconSwitch.Checked current) {
+                alarmEnabledChangeListener.alarmEnabledChanged(viewHolder.alarm, current.equals(IconSwitch.Checked.RIGHT));
+            }
+        });
     }
 
     @Override
@@ -90,7 +104,7 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
 
     @Data
     @EqualsAndHashCode(callSuper = true)
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    protected class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.alarmTimeTextView)
         TextView alarmTimeTextView;
         @BindView(R.id.alarmEnabledSwitch)
@@ -111,13 +125,6 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
             super(itemView);
             this.context = context;
             ButterKnife.bind(this, itemView);
-
-            alarmEnabledSwitch.setCheckedChangeListener(new IconSwitch.CheckedChangeListener() {
-                @Override
-                public void onCheckChanged(IconSwitch.Checked current) {
-                    // TODO: Enable/disable logic, service call!
-                }
-            });
         }
 
         @OnClick(R.id.layout)

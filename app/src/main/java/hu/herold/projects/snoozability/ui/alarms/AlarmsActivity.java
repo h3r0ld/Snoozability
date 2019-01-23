@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
@@ -31,7 +30,7 @@ import hu.herold.projects.snoozability.model.Alarm;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import hu.herold.projects.snoozability.ui.base.BaseActivity;
 
-public class AlarmsActivity extends BaseActivity implements AlarmsScreen, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class AlarmsActivity extends BaseActivity implements AlarmsScreen, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, AlarmEnabledChangeListener {
 
     public static final String ALARM_KEY = "ALARM_KEY";
 
@@ -139,6 +138,12 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
     }
 
     @Override
+    public void handleAlarmEnabled(boolean enabled) {
+        Snackbar.make(alarmsRecyclerView, "Alarm " + (enabled ? "enabled" : "disabled") + "!", Snackbar.LENGTH_SHORT)
+                .show();
+    }
+
+    @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof AlarmsAdapter.ViewHolder) {
             alarmsPresenter.deleteAlarm(((AlarmsAdapter.ViewHolder) viewHolder).getAlarm());
@@ -149,5 +154,10 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
     public void createNewAlarm() {
         Intent intent = new Intent(AlarmsActivity.this, AlarmDetailsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void alarmEnabledChanged(Alarm alarm, boolean enabled) {
+        alarmsPresenter.enableAlarm(alarm, enabled);
     }
 }

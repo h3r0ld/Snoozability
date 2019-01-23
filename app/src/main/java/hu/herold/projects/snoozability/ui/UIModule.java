@@ -13,6 +13,9 @@ import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsPresenter;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsPresenter;
+import hu.herold.projects.snoozability.ui.reciever.AlarmReceiver;
+import hu.herold.projects.snoozability.ui.reciever.AlarmReceiverActivity;
+import hu.herold.projects.snoozability.ui.reciever.AlarmReceiverPresenter;
 import hu.herold.projects.snoozability.ui.validation.Validator;
 
 @Module
@@ -63,5 +66,23 @@ public class UIModule {
     @Singleton
     Validator provideValidator() {
         return new Validator();
+    }
+
+    @Provides
+    @Singleton
+    AlarmReceiver provideAlarmReceiver() {
+        return new AlarmReceiver();
+    }
+
+    @Provides
+    @Singleton
+    AlarmReceiverActivity provideAlarmReceiverActivity() {
+        return new AlarmReceiverActivity();
+    }
+
+    @Provides
+    @Singleton
+    AlarmReceiverPresenter provideAlarmReceiverPresenter() {
+        return new AlarmReceiverPresenter();
     }
 }

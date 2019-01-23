@@ -147,6 +147,7 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
         }
 
         alarmTitleEditText.setText(alarm.getLabel());
+        alarmTimeTextView.setText(String.format(getString(R.string.time_format), alarm.getAlarmHour(), alarm.getAlarmMinutes()));
 
         setSnoozeInputs();
     }
@@ -215,7 +216,7 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
             if (!snoozeCountEditTextValue.isEmpty()) {
                 int snoozeCount = Integer.parseInt(snoozeCountEditTextValue);
                 alarm.setMaxSnoozeCount(snoozeCount);
-                alarm.setCurrentSnoozeCount(snoozeCount);
+                alarm.setRemainingSnoozeCount(snoozeCount);
             }
 
             String snoozeTimeEditTextValue = snoozeTimeEditText.getText().toString();

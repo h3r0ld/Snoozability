@@ -10,7 +10,7 @@ public interface AlarmRepository {
 
     AlarmEntity getAlarmById(long id) throws Exception;
 
-    void saveAlarm(AlarmEntity alarmEntity) throws Exception;
+    AlarmEntity saveAlarm(AlarmEntity alarmEntity) throws Exception;
 
     void deleteAlarm(AlarmEntity alarmEntity);
 

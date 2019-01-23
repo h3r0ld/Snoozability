@@ -20,7 +20,7 @@ public class Mapper {
                 .alarmVolume(alarm.getAlarmVolume())
                 .label(alarm.getLabel())
                 .maxSnoozeCount(alarm.getMaxSnoozeCount())
-                .currentSnoozeCount(alarm.getCurrentSnoozeCount())
+                .remainingSnoozeCount(alarm.getRemainingSnoozeCount())
                 .snoozeTime(alarm.getSnoozeTime())
                 .enabled(alarm.isEnabled())
                 .build();
@@ -52,7 +52,7 @@ public class Mapper {
                 .alarmVolume(alarmEntity.getAlarmVolume())
                 .label(alarmEntity.getLabel())
                 .maxSnoozeCount(alarmEntity.getMaxSnoozeCount())
-                .currentSnoozeCount(alarmEntity.getCurrentSnoozeCount())
+                .remainingSnoozeCount(alarmEntity.getRemainingSnoozeCount())
                 .snoozeTime(alarmEntity.getSnoozeTime())
                 .enabled(alarmEntity.isEnabled())
                 .build();

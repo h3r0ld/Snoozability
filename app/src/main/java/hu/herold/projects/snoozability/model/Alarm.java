@@ -25,7 +25,7 @@ public class Alarm {
 
     private Integer maxSnoozeCount;
 
-    private Integer currentSnoozeCount;
+    private Integer remainingSnoozeCount;
 
     private Integer alarmVolume;
 

@@ -14,4 +14,6 @@ public interface AlarmsScreen extends Screen {
     void handleAlarmDeleted(Alarm alarm);
 
     void handleAlarmRestored(Alarm alarm);
+
+    void handleAlarmEnabled(boolean enabled);
 }

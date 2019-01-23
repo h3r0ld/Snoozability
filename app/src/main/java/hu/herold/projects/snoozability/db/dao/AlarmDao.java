@@ -22,7 +22,7 @@ public interface AlarmDao {
     AlarmEntity getAlarmById(long id) throws Exception;
 
     @Insert
-    void saveAlarm(AlarmEntity... alarmEntities);
+    long saveAlarm(AlarmEntity alarmEntity);
 
     @Update
     void updateAlarm(AlarmEntity alarmEntity);
