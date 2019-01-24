@@ -143,7 +143,7 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     }
 
     private void playSound() {
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarm.getAlarmVolume(), 0);
 
         mediaPlayer.setLooping(true);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

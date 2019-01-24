@@ -2,11 +2,13 @@ package hu.herold.projects.snoozability.ui.alarms.details;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -53,6 +55,8 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
     TextInputEditText snoozeTimeEditText;
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.volumeSeekBar)
+    AppCompatSeekBar volumeSeekBar;
 
     @Inject
     AlarmDetailsPresenter alarmDetailsPresenter;
@@ -60,10 +64,16 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
     @Inject
     Validator validator;
 
+    @Inject
+    AudioManager audioManager;
+
     private Alarm alarm;
+    private int maxVolume;
 
     public AlarmDetailsActivity() {
         SnoozabilityApplication.injector.inject(this);
+
+        this.maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
     }
 
     @Override
@@ -78,6 +88,8 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
                 setSnoozeInputs();
             }
         });
+
+        volumeSeekBar.setMax(maxVolume);
     }
 
     @Override
@@ -107,6 +119,7 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
                     .alarmMinutes(0)
                     .snoozeTime(9)
                     .label(getString(R.string.alarm_label_placeholder))
+                    .alarmVolume(maxVolume / 2)
                     .enabled(true)
                     .build();
         }
@@ -148,6 +161,9 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
 
         alarmTitleEditText.setText(alarm.getLabel());
         alarmTimeTextView.setText(String.format(getString(R.string.time_format), alarm.getAlarmHour(), alarm.getAlarmMinutes()));
+
+
+        volumeSeekBar.setProgress(alarm.getAlarmVolume());
 
         setSnoozeInputs();
     }
@@ -228,6 +244,8 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
         if (snoozeTypeMSTB.getValue() == SnoozeType.INFINITE) {
             alarm.setMaxSnoozeCount(null);
         }
+
+        alarm.setAlarmVolume(volumeSeekBar.getProgress());
 
         alarm.setLabel(alarmTitleEditText.getText().toString());
     }
