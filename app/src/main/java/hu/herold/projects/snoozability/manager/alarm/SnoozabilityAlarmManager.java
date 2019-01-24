@@ -22,11 +22,11 @@ public class SnoozabilityAlarmManager {
     @Inject
     Context context;
 
-    private AlarmManager alarmManager;
+    @Inject
+    AlarmManager alarmManager;
 
     public SnoozabilityAlarmManager() {
         SnoozabilityApplication.injector.inject(this);
-        this.alarmManager = (AlarmManager) this.context.getSystemService(Context.ALARM_SERVICE);
     }
 
     public void setAlarm(Alarm alarm) {

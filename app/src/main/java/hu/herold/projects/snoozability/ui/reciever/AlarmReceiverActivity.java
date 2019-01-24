@@ -1,6 +1,8 @@
 package hu.herold.projects.snoozability.ui.reciever;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.view.View;
@@ -42,10 +44,17 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     @Inject
     AlarmReceiverPresenter alarmReceiverPresenter;
 
+    @Inject
+    AudioManager audioManager;
+
+    private MediaPlayer mediaPlayer;
+    private int deviceVolume;
     private Alarm alarm;
 
     public AlarmReceiverActivity() {
         SnoozabilityApplication.injector.inject(this);
+
+        deviceVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
     }
 
     @Override
@@ -53,6 +62,8 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_receiver);
         ButterKnife.bind(this);
+
+        this.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
     }
 
     @Override
@@ -77,6 +88,7 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     protected void onStop() {
         super.onStop();
         alarmReceiverPresenter.detachScreen();
+        mediaPlayer.release();
     }
 
     @Override
@@ -87,7 +99,7 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
             snoozeButton.setVisibility(View.GONE);
         }
 
-        if (alarm.getMaxSnoozeCount() != null && alarm.getRemainingSnoozeCount() > 0) {
+        if (alarm.getMaxSnoozeCount() != null && alarm.getMaxSnoozeCount() > 0 && alarm.getRemainingSnoozeCount() > 0) {
             snoozeButton.setText(String.format(getString(R.string.snooze_with_remaining), alarm.getRemainingSnoozeCount()));
         }
 
@@ -109,6 +121,8 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
 
             buttonsLinearLayout.setLayoutParams(params);
         }
+
+        playSound();
     }
 
     @Override
@@ -119,10 +133,27 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     @OnClick(R.id.snoozeButton)
     public void onSnoozeButtonClicked(View view) {
         alarmReceiverPresenter.snoozeAlarm(alarm);
+        stopSound();
     }
 
     @OnClick(R.id.stopButton)
     public void onStopButtonClicked(View view) {
         alarmReceiverPresenter.stopAlarm(alarm);
+        stopSound();
+    }
+
+    private void playSound() {
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.start();
+    }
+
+    private void stopSound() {
+        // reset the volume to what it was before we changed it.
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, deviceVolume, 0);
+        mediaPlayer.stop();
+        mediaPlayer.reset();
     }
 }

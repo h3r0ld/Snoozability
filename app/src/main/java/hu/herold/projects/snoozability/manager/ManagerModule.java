@@ -1,5 +1,8 @@
 package hu.herold.projects.snoozability.manager;
 
+import android.app.AlarmManager;
+import android.content.Context;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -13,5 +16,11 @@ public class ManagerModule {
     @Singleton
     SnoozabilityAlarmManager provideSnoozabilityAlarmManager() {
         return new SnoozabilityAlarmManager();
+    }
+
+    @Provides
+    @Singleton
+    AlarmManager provideAlarmManager(Context context) {
+        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 }

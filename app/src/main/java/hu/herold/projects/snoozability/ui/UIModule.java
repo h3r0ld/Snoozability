@@ -1,6 +1,9 @@
 package hu.herold.projects.snoozability.ui;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.provider.MediaStore;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -9,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsPresenter;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
@@ -60,6 +64,12 @@ public class UIModule {
     @Singleton
     Executor provideExecutor() {
         return Executors.newFixedThreadPool(1);
+    }
+
+    @Provides
+    @Singleton
+    AudioManager provideAudioManager(Context context) {
+        return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
     }
 
     @Provides
