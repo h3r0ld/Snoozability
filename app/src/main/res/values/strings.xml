@@ -8,6 +8,7 @@
     <string name="snooze_time">Snooze Duration</string>
     <string name="snooze_count">Snooze Count</string>
     <string name="snooze">Snooze</string>
+    <string name="snooze_with_remaining">Snooze (%d remaining)</string>
     <string name="label">Label</string>
     <string name="alarm_title">Alarm Title</string>
     <string name="default_alarm_time">8:00</string>
@@ -18,4 +19,5 @@
     <string name="unexpected_error">Unexpected Error!</string>
     <string name="delete">Delete</string>
     <string name="dotdotdot">...</string>
+    <string name="stop">Stop</string>
 </resources>

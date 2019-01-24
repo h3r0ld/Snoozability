@@ -1,34 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.reciever.AlarmReceiverActivity">
-
 
     <TextView
         android:id="@+id/alarmTimeTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:textSize="@dimen/title_text_size"/>
+        android:layout_above="@id/currentTimeTextView"
+        tools:text="8:00"/>
 
     <TextView
-        android:id="@+id/alarmTitleTextView"
+        android:id="@+id/currentTimeTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"/>
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:textSize="@dimen/title_text_size"
+        tools:text="12:00"/>
 
-    <android.support.design.button.MaterialButton
-        android:id="@+id/snoozeButton"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/alarmTitleScrollView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Snooze"/>
+        android:layout_below="@id/currentTimeTextView"
+        android:layout_marginTop="-1dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
-    <android.support.design.button.MaterialButton
-        android:id="@+id/stopButton"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/alarmTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:text="AlarmTitle" />
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/buttonsLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop"/>
-</LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/alarmTitleScrollView"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/snoozeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/snooze"/>
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/stopButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stop"/>
+    </LinearLayout>
+
+</RelativeLayout>

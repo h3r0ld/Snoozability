@@ -67,6 +67,10 @@ public class AlarmsInteractor {
         SaveAlarmEvent event = SaveAlarmEvent.builder().build();
 
         try {
+            if (alarm.getId() != null) {
+                snoozabilityAlarmManager.cancelAlarm(alarm.getId());
+            }
+            
             AlarmEntity alarmEntity = mapper.mapAlarm(alarm);
             alarmEntity.setEnabled(true);
             alarmRepository.saveAlarm(alarmEntity);

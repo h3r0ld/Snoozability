@@ -4,7 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -27,6 +32,12 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     MaterialButton snoozeButton;
     @BindView(R.id.stopButton)
     MaterialButton stopButton;
+    @BindView(R.id.currentTimeTextView)
+    TextView currentTimeTextView;
+    @BindView(R.id.alarmTitleScrollView)
+    ScrollView alarmTitleScrollView;
+    @BindView(R.id.buttonsLinearLayout)
+    LinearLayout buttonsLinearLayout;
 
     @Inject
     AlarmReceiverPresenter alarmReceiverPresenter;
@@ -76,8 +87,28 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
             snoozeButton.setVisibility(View.GONE);
         }
 
+        if (alarm.getMaxSnoozeCount() != null && alarm.getRemainingSnoozeCount() > 0) {
+            snoozeButton.setText(String.format(getString(R.string.snooze_with_remaining), alarm.getRemainingSnoozeCount()));
+        }
+
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTimeInMillis(System.currentTimeMillis());
+        currentTimeTextView.setText(String.format(getString(R.string.time_format), currentCalendar.get(Calendar.HOUR_OF_DAY), currentCalendar.get(Calendar.MINUTE)));
+
         alarmTimeTextView.setText(String.format(getString(R.string.time_format), alarm.getAlarmHour(), alarm.getAlarmMinutes()));
         alarmTitleTextView.setText(alarm.getLabel());
+
+        if (alarm.getLabel().length() >= 10) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)buttonsLinearLayout.getLayoutParams();
+            params.removeRule(RelativeLayout.BELOW);
+            params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
+            params.addRule(RelativeLayout.ABOVE, alarmTimeTextView.getId());
+
+            buttonsLinearLayout.setLayoutParams(params);
+        }
     }
 
     @Override
