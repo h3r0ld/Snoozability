@@ -228,25 +228,27 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
         }
 
         if (snoozeTypeMSTB.getValue() == SnoozeType.CUSTOM) {
-            String snoozeCountEditTextValue = snoozeCountEditText.getText().toString();
+            String snoozeCountEditTextValue = snoozeCountEditText.getText() + "";
             if (!snoozeCountEditTextValue.isEmpty()) {
                 int snoozeCount = Integer.parseInt(snoozeCountEditTextValue);
                 alarm.setMaxSnoozeCount(snoozeCount);
                 alarm.setRemainingSnoozeCount(snoozeCount);
             }
 
-            String snoozeTimeEditTextValue = snoozeTimeEditText.getText().toString();
+            String snoozeTimeEditTextValue = snoozeTimeEditText.getText() + "";
             if (!snoozeTimeEditTextValue.isEmpty()) {
                 alarm.setSnoozeTime(Integer.parseInt(snoozeTimeEditTextValue));
             }
         }
 
         if (snoozeTypeMSTB.getValue() == SnoozeType.INFINITE) {
+            String snoozeTimeEditTextValue = snoozeTimeEditText.getText() + "";
             alarm.setMaxSnoozeCount(null);
+            alarm.setSnoozeTime(Integer.parseInt(snoozeTimeEditTextValue));
         }
 
         alarm.setAlarmVolume(volumeSeekBar.getProgress());
 
-        alarm.setLabel(alarmTitleEditText.getText().toString());
+        alarm.setLabel(alarmTitleEditText.getText() + "");
     }
 }

@@ -36,8 +36,6 @@ public interface SnoozabilityApplicationComponent {
 
     void inject(SnoozabilityAlarmManager snoozabilityAlarmManager);
 
-    void inject(AlarmReceiver alarmReceiver);
-
     void inject(AlarmReceiverActivity alarmReceiverActivity);
 
     void inject(AlarmReceiverPresenter alarmReceiverPresenter);

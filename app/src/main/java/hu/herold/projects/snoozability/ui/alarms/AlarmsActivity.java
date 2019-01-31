@@ -29,6 +29,7 @@ import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.model.Alarm;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import hu.herold.projects.snoozability.ui.base.BaseActivity;
+import hu.herold.projects.snoozability.utils.Utils;
 
 public class AlarmsActivity extends BaseActivity implements AlarmsScreen, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, AlarmEnabledChangeListener {
 
@@ -83,6 +84,8 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
     protected void onResume() {
         super.onResume();
         alarmsPresenter.getAlarms();
+
+        Utils.startPowerSaverIntent(this);
     }
 
     @Override

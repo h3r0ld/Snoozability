@@ -6,6 +6,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -23,6 +25,7 @@ import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.manager.alarm.SnoozabilityAlarmManager;
 import hu.herold.projects.snoozability.model.Alarm;
 import hu.herold.projects.snoozability.ui.base.BaseActivity;
+import hu.herold.projects.snoozability.utils.WakeLocker;
 
 public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiverScreen {
 
@@ -53,8 +56,6 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
 
     public AlarmReceiverActivity() {
         SnoozabilityApplication.injector.inject(this);
-
-        deviceVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
     }
 
     @Override
@@ -63,7 +64,11 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
         setContentView(R.layout.activity_alarm_receiver);
         ButterKnife.bind(this);
 
-        this.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
+        deviceVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+
+        final Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 
     @Override
@@ -81,6 +86,8 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
         if (intent != null && intent.getExtras() != null && intent.getExtras().containsKey(SnoozabilityAlarmManager.ID_KEY)) {
             long alarmId = intent.getExtras().getLong(SnoozabilityAlarmManager.ID_KEY);
             alarmReceiverPresenter.getAlarm(alarmId);
+
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
         }
     }
 
@@ -89,6 +96,7 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
         super.onStop();
         alarmReceiverPresenter.detachScreen();
         mediaPlayer.release();
+        WakeLocker.release();
     }
 
     @Override
@@ -116,7 +124,6 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
             params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-
             params.addRule(RelativeLayout.ABOVE, alarmTimeTextView.getId());
 
             buttonsLinearLayout.setLayoutParams(params);
@@ -153,7 +160,9 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     private void stopSound() {
         // reset the volume to what it was before we changed it.
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, deviceVolume, 0);
-        mediaPlayer.stop();
-        mediaPlayer.reset();
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+        }
     }
 }
