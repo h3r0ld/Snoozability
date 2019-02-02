@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.PowerManager;
 
 import java.util.Calendar;
 
@@ -13,7 +12,7 @@ import javax.inject.Inject;
 
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.model.Alarm;
-import hu.herold.projects.snoozability.ui.reciever.AlarmReceiver;
+import hu.herold.projects.snoozability.receiver.AlarmReceiver;
 
 public class SnoozabilityAlarmManager {
 

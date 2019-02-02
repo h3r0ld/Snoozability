@@ -8,6 +8,8 @@ public interface AlarmRepository {
 
     List<AlarmEntity> getAlarms() throws Exception;
 
+    List<AlarmEntity> getEnabledAlarms() throws Exception;
+
     AlarmEntity getAlarmById(long id) throws Exception;
 
     AlarmEntity saveAlarm(AlarmEntity alarmEntity) throws Exception;

@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import hu.herold.projects.snoozability.manager.alarm.AlarmRestoreManager;
 import hu.herold.projects.snoozability.manager.alarm.SnoozabilityAlarmManager;
 
 @Module
@@ -22,5 +23,11 @@ public class ManagerModule {
     @Singleton
     AlarmManager provideAlarmManager(Context context) {
         return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    }
+
+    @Provides
+    @Singleton
+    AlarmRestoreManager provideAlarmRestoreManager() {
+        return new AlarmRestoreManager();
     }
 }

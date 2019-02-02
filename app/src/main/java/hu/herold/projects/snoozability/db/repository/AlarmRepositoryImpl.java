@@ -22,12 +22,17 @@ public class AlarmRepositoryImpl implements AlarmRepository {
     }
 
     @Override
+    public List<AlarmEntity> getEnabledAlarms() throws Exception {
+        return alarmDao.getEnabledAlarms();
+    }
+
+    @Override
     public AlarmEntity getAlarmById(long id) throws Exception {
         return alarmDao.getAlarmById(id);
     }
 
     @Override
-    public AlarmEntity saveAlarm(AlarmEntity alarmEntity) throws Exception {
+    public AlarmEntity saveAlarm(AlarmEntity alarmEntity) {
         if (alarmEntity.getId() != null) {
             alarmDao.updateAlarm(alarmEntity);
             return alarmEntity;

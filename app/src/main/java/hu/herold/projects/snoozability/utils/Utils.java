@@ -14,6 +14,7 @@ import java.util.List;
 
 import hu.herold.projects.snoozability.R;
 
+// https://stackoverflow.com/questions/31638986/protected-apps-setting-on-huawei-phones-and-how-to-handle-it
 public class Utils {
 
     public static void startPowerSaverIntent(final Context context) {
