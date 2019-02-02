@@ -73,7 +73,7 @@ public class AlarmsPresenter extends Presenter<AlarmsScreen> {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                if (enabled) {
+                if (alarm.isEnabled() != enabled) {
                     alarmsInteractor.enableAlarm(alarm, enabled);
                 }
             }

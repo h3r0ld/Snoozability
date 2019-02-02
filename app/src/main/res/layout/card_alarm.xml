@@ -70,7 +70,7 @@
                     android:layout_alignParentRight="true"
                     app:isw_icon_left="@drawable/outline_alarm_off_black_36"
                     app:isw_icon_right="@drawable/outline_alarm_on_black_36"
-                    app:isw_background_color="@color/white"
+                    app:isw_background_color="@android:color/white"
                     app:isw_thumb_color_left="@color/colorPrimaryDark"
                     app:isw_thumb_color_right="@color/colorPrimaryDark"
                     app:isw_inactive_tint_icon_left="@color/colorPrimary"

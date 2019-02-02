@@ -14,6 +14,8 @@ public interface AlarmRepository {
 
     AlarmEntity saveAlarm(AlarmEntity alarmEntity) throws Exception;
 
+    void updateAlarms(List<AlarmEntity> alarmEntities) throws Exception;
+
     void deleteAlarm(AlarmEntity alarmEntity);
 
     void deleteAlarmById(long id);

@@ -9,6 +9,8 @@ import hu.herold.projects.snoozability.interactor.alarms.AlarmsInteractor;
 import hu.herold.projects.snoozability.manager.ManagerModule;
 import hu.herold.projects.snoozability.manager.alarm.AlarmRestoreManager;
 import hu.herold.projects.snoozability.manager.alarm.SnoozabilityAlarmManager;
+import hu.herold.projects.snoozability.manager.notification.SnoozabilityNotificationManager;
+import hu.herold.projects.snoozability.receiver.AlarmDisableReceiver;
 import hu.herold.projects.snoozability.receiver.DeviceBootReceiver;
 import hu.herold.projects.snoozability.ui.UIModule;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity;
@@ -37,6 +39,8 @@ public interface SnoozabilityApplicationComponent {
 
     void inject(SnoozabilityAlarmManager snoozabilityAlarmManager);
 
+    void inject(SnoozabilityNotificationManager snoozabilityNotificationManager);
+
     void inject(AlarmRestoreManager alarmRestoreManager);
 
     void inject(AlarmReceiverActivity alarmReceiverActivity);
@@ -44,4 +48,6 @@ public interface SnoozabilityApplicationComponent {
     void inject(AlarmReceiverPresenter alarmReceiverPresenter);
 
     void inject(DeviceBootReceiver deviceBootReceiver);
+
+    void inject(AlarmDisableReceiver alarmDisableReceiver);
 }

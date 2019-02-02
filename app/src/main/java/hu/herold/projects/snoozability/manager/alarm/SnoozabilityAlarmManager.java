@@ -11,6 +11,7 @@ import java.util.Calendar;
 import javax.inject.Inject;
 
 import hu.herold.projects.snoozability.SnoozabilityApplication;
+import hu.herold.projects.snoozability.manager.notification.SnoozabilityNotificationManager;
 import hu.herold.projects.snoozability.model.Alarm;
 import hu.herold.projects.snoozability.receiver.AlarmReceiver;
 
@@ -25,6 +26,9 @@ public class SnoozabilityAlarmManager {
 
     @Inject
     AlarmManager alarmManager;
+
+    @Inject
+    SnoozabilityNotificationManager snoozabilityNotificationManager;
 
     public SnoozabilityAlarmManager() {
         SnoozabilityApplication.injector.inject(this);
@@ -59,11 +63,14 @@ public class SnoozabilityAlarmManager {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(),
                     1000 * 60 * alarm.getSnoozeTime(), pendingIntent);
         }
+
+        snoozabilityNotificationManager.showNotification();
     }
 
     public void cancelAlarm(Long alarmId) {
         PendingIntent pendingIntent = createPendingIntent(alarmId);
         alarmManager.cancel(pendingIntent);
+        snoozabilityNotificationManager.cancelNotification();
     }
 
     private PendingIntent createPendingIntent(Long alarmId) {

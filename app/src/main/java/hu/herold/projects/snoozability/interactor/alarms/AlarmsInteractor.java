@@ -1,5 +1,7 @@
 package hu.herold.projects.snoozability.interactor.alarms;
 
+import android.app.NotificationManager;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -77,7 +79,6 @@ public class AlarmsInteractor {
             alarm = mapper.mapAlarmEntity(alarmEntity);
 
             snoozabilityAlarmManager.setAlarm(alarm);
-
             event.setAlarm(alarm);
         } catch (Exception e) {
             event.setThrowable(e);
@@ -142,7 +143,7 @@ public class AlarmsInteractor {
         try {
             alarm.setEnabled(enabled);
 
-            if (!enabled) {
+           if (!enabled) {
                 snoozabilityAlarmManager.cancelAlarm(alarm.getId());
 
                 if (alarm.getMaxSnoozeCount() != null && alarm.getMaxSnoozeCount() > 0) {

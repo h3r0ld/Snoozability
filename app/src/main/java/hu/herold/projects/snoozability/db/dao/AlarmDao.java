@@ -30,6 +30,9 @@ public interface AlarmDao {
     @Update
     void updateAlarm(AlarmEntity alarmEntity);
 
+    @Update
+    void updateAlarms(List<AlarmEntity> alarmEntities);
+
     @Delete
     void deleteAlarm(AlarmEntity alarmEntity);
 

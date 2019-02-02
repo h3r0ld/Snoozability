@@ -23,20 +23,20 @@ public class DBModule {
 
     @Provides
     @Singleton
-    public AppDatabase provideRoomDatabase() {
+    AppDatabase provideRoomDatabase() {
         return appDatabase;
     }
 
 
     @Provides
     @Singleton
-    public AlarmDao provideAlarmDao(AppDatabase appDatabase) {
+    AlarmDao provideAlarmDao(AppDatabase appDatabase) {
         return appDatabase.alarmDao();
     }
 
     @Provides
     @Singleton
-    public AlarmRepository provideAlarmRepository(AlarmDao alarmDao) {
+    AlarmRepository provideAlarmRepository(AlarmDao alarmDao) {
         return  new AlarmRepositoryImpl(alarmDao);
     }
 }

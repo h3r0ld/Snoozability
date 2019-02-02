@@ -36,14 +36,30 @@ public class AlarmRestoreManager {
             List<Alarm> alarms = mapper.mapAlarmEntityList(alarmEntities);
 
             for (Alarm alarm : alarms) {
-                if (alarm.isEnabled()) {
-                    Log.i("AlarmRestore", String.format("Restored alarm: %s (%d)", alarm.getLabel(), alarm.getId()));
-                    snoozabilityAlarmManager.setAlarm(alarm);
-                }
+                Log.i("AlarmRestore", String.format("Restored alarm: %s (%d)", alarm.getLabel(), alarm.getId()));
+                snoozabilityAlarmManager.setAlarm(alarm);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v("AlarmRestoreManager", "Could not restore alarms.");
+            Log.e("AlarmRestoreManager", "Could not restore alarms.");
+        }
+    }
+
+    public void disableAlarms() {
+        Log.i("AlarmRestore", "Disabling alarms...");
+
+        try {
+            List<AlarmEntity> alarmEntities = alarmRepository.getEnabledAlarms();
+
+            for (AlarmEntity alarm : alarmEntities) {
+                Log.i("AlarmRestore", String.format("Canceled alarm: %s (%d)", alarm.getLabel(), alarm.getId()));
+                alarm.setEnabled(false);
+                snoozabilityAlarmManager.cancelAlarm(alarm.getId());
+            }
+            alarmRepository.updateAlarms(alarmEntities);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("AlarmRestoreManager", "Could not restore alarms.");
         }
     }
 }

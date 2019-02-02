@@ -50,6 +50,9 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     @Inject
     AudioManager audioManager;
 
+    @Inject
+    SnoozabilityAlarmManager snoozabilityAlarmManager;
+
     private MediaPlayer mediaPlayer;
     private int deviceVolume;
     private Alarm alarm;
@@ -105,6 +108,7 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
 
         if (alarm.getMaxSnoozeCount() != null && (alarm.getMaxSnoozeCount() == 0 || alarm.getRemainingSnoozeCount() == 0)) {
             snoozeButton.setVisibility(View.GONE);
+            snoozabilityAlarmManager.cancelAlarm(alarm.getId());
         }
 
         if (alarm.getMaxSnoozeCount() != null && alarm.getMaxSnoozeCount() > 0 && alarm.getRemainingSnoozeCount() > 0) {

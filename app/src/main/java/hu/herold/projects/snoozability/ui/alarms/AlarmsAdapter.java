@@ -72,13 +72,6 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
         } else {
             viewHolder.alarmEnabledSwitch.setChecked(IconSwitch.Checked.LEFT);
         }
-
-        viewHolder.alarmEnabledSwitch.setCheckedChangeListener(new IconSwitch.CheckedChangeListener() {
-            @Override
-            public void onCheckChanged(IconSwitch.Checked current) {
-                alarmEnabledChangeListener.alarmEnabledChanged(viewHolder.alarm, current.equals(IconSwitch.Checked.RIGHT));
-            }
-        });
     }
 
     @Override
@@ -125,6 +118,13 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
             super(itemView);
             this.context = context;
             ButterKnife.bind(this, itemView);
+
+            this.alarmEnabledSwitch.setCheckedChangeListener(new IconSwitch.CheckedChangeListener() {
+                @Override
+                public void onCheckChanged(IconSwitch.Checked current) {
+                    alarmEnabledChangeListener.alarmEnabledChanged(alarm, current.equals(IconSwitch.Checked.RIGHT));
+                }
+            });
         }
 
         @OnClick(R.id.layout)

@@ -54,9 +54,11 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // AppCenter Analytics, Crashes and Distribute initialization
-        AppCenter.start(getApplication(), BuildConfig.APP_CENTER_SECRET,
-                Analytics.class, Crashes.class, Distribute.class);
+        if (!AppCenter.isConfigured()) {
+            // AppCenter Analytics, Crashes and Distribute initialization
+            AppCenter.start(getApplication(), BuildConfig.APP_CENTER_SECRET,
+                    Analytics.class, Crashes.class, Distribute.class);
+        }
 
         setContentView(R.layout.activity_alarms);
         ButterKnife.bind(this);
@@ -141,10 +143,7 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
     }
 
     @Override
-    public void handleAlarmEnabled(boolean enabled) {
-        Snackbar.make(alarmsRecyclerView, "Alarm " + (enabled ? "enabled" : "disabled") + "!", Snackbar.LENGTH_SHORT)
-                .show();
-    }
+    public void handleAlarmEnabled(boolean enabled) {}
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {

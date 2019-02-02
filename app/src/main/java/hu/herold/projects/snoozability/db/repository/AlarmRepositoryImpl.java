@@ -44,6 +44,11 @@ public class AlarmRepositoryImpl implements AlarmRepository {
     }
 
     @Override
+    public void updateAlarms(List<AlarmEntity> alarmEntities) throws Exception {
+        alarmDao.updateAlarms(alarmEntities);
+    }
+
+    @Override
     public void deleteAlarm(AlarmEntity alarmEntity) {
         alarmDao.deleteAlarm(alarmEntity);
     }

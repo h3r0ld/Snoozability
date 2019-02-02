@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
                     app:mstbPrimaryColor="@color/colorPrimary"
-                    app:mstbSecondaryColor="@color/white"
+                    app:mstbSecondaryColor="@android:color/white"
                     app:mstbColorPressedText="@color/colorAccent"
                     app:values="@array/snoozeTypeArray" />
 
