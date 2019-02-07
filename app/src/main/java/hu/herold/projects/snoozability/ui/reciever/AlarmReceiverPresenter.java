@@ -14,7 +14,6 @@ import hu.herold.projects.snoozability.interactor.alarms.event.GetAlarmEvent;
 import hu.herold.projects.snoozability.interactor.alarms.event.SnoozeAlarmEvent;
 import hu.herold.projects.snoozability.interactor.alarms.event.StopAlarmEvent;
 import hu.herold.projects.snoozability.model.Alarm;
-import hu.herold.projects.snoozability.ui.alarms.AlarmsScreen;
 import hu.herold.projects.snoozability.ui.base.Presenter;
 
 public class AlarmReceiverPresenter extends Presenter<AlarmReceiverScreen> {
@@ -73,7 +72,7 @@ public class AlarmReceiverPresenter extends Presenter<AlarmReceiverScreen> {
         boolean isExceptionPresent = handleEventException(event);
 
         if (!isExceptionPresent && screen != null) {
-            screen.showAlarm(event.getAlarm());
+            screen.showAlarm(event.getAlarm(), event.getQuote());
         }
     }
 

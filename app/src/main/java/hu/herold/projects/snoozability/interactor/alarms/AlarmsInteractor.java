@@ -1,17 +1,17 @@
 package hu.herold.projects.snoozability.interactor.alarms;
 
-import android.app.NotificationManager;
-
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.db.model.AlarmEntity;
-import hu.herold.projects.snoozability.db.repository.AlarmRepository;
+import hu.herold.projects.snoozability.db.model.QuoteEntity;
+import hu.herold.projects.snoozability.db.repository.alarm.AlarmRepository;
+import hu.herold.projects.snoozability.db.repository.quote.QuoteRepository;
 import hu.herold.projects.snoozability.interactor.alarms.event.DeleteAlarmEvent;
 import hu.herold.projects.snoozability.interactor.alarms.event.EnableAlarmEvent;
 import hu.herold.projects.snoozability.interactor.alarms.event.GetAlarmEvent;
@@ -22,11 +22,15 @@ import hu.herold.projects.snoozability.interactor.alarms.event.StopAlarmEvent;
 import hu.herold.projects.snoozability.interactor.mapper.Mapper;
 import hu.herold.projects.snoozability.manager.alarm.SnoozabilityAlarmManager;
 import hu.herold.projects.snoozability.model.Alarm;
+import hu.herold.projects.snoozability.model.Quote;
 
 public class AlarmsInteractor {
 
     @Inject
     AlarmRepository alarmRepository;
+
+    @Inject
+    QuoteRepository quoteRepository;
 
     @Inject
     Mapper mapper;
@@ -58,6 +62,9 @@ public class AlarmsInteractor {
             AlarmEntity alarmEntity = alarmRepository.getAlarmById(alarmId);
             Alarm alarm = mapper.mapAlarmEntity(alarmEntity);
             event.setAlarm(alarm);
+
+            Quote quote = getRandomQuote();
+            event.setQuote(quote);
         } catch (Exception e) {
             event.setThrowable(e);
         } finally {
@@ -130,6 +137,8 @@ public class AlarmsInteractor {
 
             AlarmEntity alarmEntity = mapper.mapAlarm(alarm);
             alarmRepository.saveAlarm(alarmEntity);
+
+            snoozabilityAlarmManager.setSnooze(alarm);
         } catch (Exception e) {
             event.setThrowable(e);
         } finally {
@@ -159,6 +168,22 @@ public class AlarmsInteractor {
             event.setThrowable(e);
         } finally {
             EventBus.getDefault().post(event);
+        }
+    }
+
+    private Quote getRandomQuote() {
+        try {
+            int maxValue = quoteRepository.getQuoteCount();
+
+            int random = new Random().nextInt(maxValue);
+
+            QuoteEntity quoteEntity = quoteRepository.getQuote(random);
+            return mapper.mapToQuote(quoteEntity);
+        } catch (Exception e) {
+            return Quote.builder()
+                    .Quote("Just get up!")
+                    .Author("Snoozability")
+                    .build();
         }
     }
 }

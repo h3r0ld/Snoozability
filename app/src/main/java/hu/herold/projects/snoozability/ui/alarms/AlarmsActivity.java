@@ -7,9 +7,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
@@ -17,6 +25,8 @@ import com.microsoft.appcenter.distribute.Distribute;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -27,6 +37,8 @@ import hu.herold.projects.snoozability.BuildConfig;
 import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.model.Alarm;
+import hu.herold.projects.snoozability.model.Quote;
+import hu.herold.projects.snoozability.service.QuotesSyncService;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import hu.herold.projects.snoozability.ui.base.BaseActivity;
 import hu.herold.projects.snoozability.utils.Utils;
@@ -74,6 +86,37 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(alarmsRecyclerView);
+
+//        try {
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            database.setPersistenceEnabled(true);
+//            DatabaseReference myRef = database.getReference("quotes");
+//            // Read from the database
+//            myRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    int rnd = new Random().nextInt() % Long.valueOf(dataSnapshot.getChildrenCount()).intValue();
+//
+//                    Map<String, Object> quoteObjects = (Map<String, Object>) dataSnapshot.getValue();
+//
+//                    Object o = quoteObjects.values().toArray()[rnd];
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError error) {
+//                    // Failed to read value
+//                    Log.w("QuotesFirebase", "Failed to read value.", error.toException());
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        if (!QuotesSyncService.IsRunning) {
+            Intent serviceIntent = new Intent(AlarmsActivity.this, QuotesSyncService.class);
+            this.startService(serviceIntent);
+        }
     }
 
     @Override

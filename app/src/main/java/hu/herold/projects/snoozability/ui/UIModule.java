@@ -1,6 +1,7 @@
 package hu.herold.projects.snoozability.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 
 import java.util.concurrent.Executor;
@@ -10,11 +11,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import hu.herold.projects.snoozability.receiver.AlarmReceiver;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsPresenter;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsActivity;
 import hu.herold.projects.snoozability.ui.alarms.details.AlarmDetailsPresenter;
-import hu.herold.projects.snoozability.receiver.AlarmReceiver;
 import hu.herold.projects.snoozability.ui.reciever.AlarmReceiverActivity;
 import hu.herold.projects.snoozability.ui.reciever.AlarmReceiverPresenter;
 import hu.herold.projects.snoozability.ui.validation.Validator;
@@ -67,6 +68,12 @@ public class UIModule {
     @Singleton
     AudioManager provideAudioManager(Context context) {
         return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Context context) {
+        return context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
     }
 
     @Provides

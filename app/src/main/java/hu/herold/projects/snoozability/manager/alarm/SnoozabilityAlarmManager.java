@@ -51,17 +51,31 @@ public class SnoozabilityAlarmManager {
             alarmCalendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        // If snooze is not allowed
-        if (alarm.getMaxSnoozeCount() != null && alarm.getMaxSnoozeCount() == 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
-            } else {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
         } else {
-            // If its a custom or infinite snooze count
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(),
-                    1000 * 60 * alarm.getSnoozeTime(), pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
+        }
+
+        snoozabilityNotificationManager.showNotification();
+    }
+
+    public void setSnooze(Alarm alarm) {
+        PendingIntent pendingIntent = createPendingIntent(alarm.getId());
+
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTimeInMillis(System.currentTimeMillis());
+
+        Calendar alarmCalendar = Calendar.getInstance();
+        alarmCalendar.setTimeInMillis(System.currentTimeMillis());
+        alarmCalendar.set(Calendar.SECOND, 0);
+
+        alarmCalendar.add(Calendar.MINUTE, alarm.getSnoozeTime());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
         }
 
         snoozabilityNotificationManager.showNotification();

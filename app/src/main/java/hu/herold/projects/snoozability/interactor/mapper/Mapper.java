@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hu.herold.projects.snoozability.db.model.AlarmEntity;
+import hu.herold.projects.snoozability.db.model.QuoteEntity;
 import hu.herold.projects.snoozability.model.Alarm;
+import hu.herold.projects.snoozability.model.Quote;
 
 public class Mapper {
 
@@ -70,5 +72,12 @@ public class Mapper {
         }
 
         return alarms;
+    }
+
+    public Quote mapToQuote(QuoteEntity quoteEntity) {
+        return Quote.builder()
+                .Author(quoteEntity.getAuthor())
+                .Quote(quoteEntity.getQuote())
+                .build();
     }
 }

@@ -5,6 +5,32 @@
     android:layout_height="match_parent"
     tools:context=".ui.reciever.AlarmReceiverActivity">
 
+    <LinearLayout
+        android:id="@+id/quoteLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/alarmTimeTextView"
+        android:padding="@dimen/padd_10"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/quoteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:text="„Ha majd belefáradsz abba, hogy az legyél, aki nem vagy, akkor majd végre élvezheted az életet. Idővel rájössz, hogy ez nemcsak örömet szerez, hanem valami sokkal mélyebbet ad: értelmet az életednek.”"/>
+
+        <TextView
+            android:id="@+id/authorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            tools:text="Paulo Coelho"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/alarmTimeTextView"
         android:layout_width="match_parent"
@@ -39,7 +65,7 @@
             android:scrollbars="vertical"
             android:textAlignment="center"
             android:textSize="20sp"
-            tools:text="AlarmTitle" />
+            tools:text="Alarm Title" />
     </ScrollView>
 
     <LinearLayout

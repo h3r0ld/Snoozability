@@ -1,4 +1,4 @@
-package hu.herold.projects.snoozability.db.repository;
+package hu.herold.projects.snoozability.db.repository.alarm;
 
 import java.util.List;
 

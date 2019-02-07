@@ -24,6 +24,7 @@ import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.manager.alarm.SnoozabilityAlarmManager;
 import hu.herold.projects.snoozability.model.Alarm;
+import hu.herold.projects.snoozability.model.Quote;
 import hu.herold.projects.snoozability.ui.base.BaseActivity;
 import hu.herold.projects.snoozability.utils.WakeLocker;
 
@@ -43,6 +44,12 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     ScrollView alarmTitleScrollView;
     @BindView(R.id.buttonsLinearLayout)
     LinearLayout buttonsLinearLayout;
+    @BindView(R.id.quoteTextView)
+    TextView quoteTextView;
+    @BindView(R.id.authorTextView)
+    TextView authorTextView;
+    @BindView(R.id.quoteLayout)
+    LinearLayout quoteLayout;
 
     @Inject
     AlarmReceiverPresenter alarmReceiverPresenter;
@@ -103,12 +110,11 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
     }
 
     @Override
-    public void showAlarm(Alarm alarm) {
+    public void showAlarm(Alarm alarm, Quote quote) {
         this.alarm = alarm;
 
         if (alarm.getMaxSnoozeCount() != null && (alarm.getMaxSnoozeCount() == 0 || alarm.getRemainingSnoozeCount() == 0)) {
             snoozeButton.setVisibility(View.GONE);
-            snoozabilityAlarmManager.cancelAlarm(alarm.getId());
         }
 
         if (alarm.getMaxSnoozeCount() != null && alarm.getMaxSnoozeCount() > 0 && alarm.getRemainingSnoozeCount() > 0) {
@@ -122,8 +128,11 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
         alarmTimeTextView.setText(String.format(getString(R.string.time_format), alarm.getAlarmHour(), alarm.getAlarmMinutes()));
         alarmTitleTextView.setText(alarm.getLabel());
 
-        if (alarm.getLabel().length() >= 10) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)buttonsLinearLayout.getLayoutParams();
+        quoteTextView.setText(quote.getQuote());
+        authorTextView.setText(quote.getAuthor());
+
+        if (alarm.getLabel().length() >= 300) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) buttonsLinearLayout.getLayoutParams();
             params.removeRule(RelativeLayout.BELOW);
             params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
@@ -131,6 +140,8 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
             params.addRule(RelativeLayout.ABOVE, alarmTimeTextView.getId());
 
             buttonsLinearLayout.setLayoutParams(params);
+
+            quoteLayout.setVisibility(View.INVISIBLE);
         }
 
         playSound();

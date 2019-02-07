@@ -12,9 +12,7 @@ import javax.inject.Inject;
 import hu.herold.projects.snoozability.R;
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.receiver.AlarmDisableReceiver;
-import hu.herold.projects.snoozability.receiver.AlarmReceiver;
 import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity;
-import hu.herold.projects.snoozability.ui.alarms.AlarmsActivity_ViewBinding;
 
 public class SnoozabilityNotificationManager {
 

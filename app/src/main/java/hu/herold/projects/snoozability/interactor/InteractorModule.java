@@ -1,8 +1,5 @@
 package hu.herold.projects.snoozability.interactor;
 
-import android.app.NotificationManager;
-import android.content.Context;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -19,9 +16,10 @@ public class InteractorModule {
         return new Mapper();
     }
 
-    @Singleton
     @Provides
+    @Singleton
     AlarmsInteractor provideAlarmsInteractor() {
         return new AlarmsInteractor();
     }
+
 }

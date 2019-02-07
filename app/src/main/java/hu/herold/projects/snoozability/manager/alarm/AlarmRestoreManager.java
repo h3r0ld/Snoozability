@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import hu.herold.projects.snoozability.SnoozabilityApplication;
 import hu.herold.projects.snoozability.db.model.AlarmEntity;
-import hu.herold.projects.snoozability.db.repository.AlarmRepository;
+import hu.herold.projects.snoozability.db.repository.alarm.AlarmRepository;
 import hu.herold.projects.snoozability.interactor.mapper.Mapper;
 import hu.herold.projects.snoozability.model.Alarm;
 
