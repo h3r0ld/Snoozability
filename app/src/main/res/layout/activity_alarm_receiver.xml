@@ -19,15 +19,18 @@
             android:id="@+id/quoteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/indie_flower"
             android:textAlignment="center"
             android:textSize="20sp"
-            tools:text="„Ha majd belefáradsz abba, hogy az legyél, aki nem vagy, akkor majd végre élvezheted az életet. Idővel rájössz, hogy ez nemcsak örömet szerez, hanem valami sokkal mélyebbet ad: értelmet az életednek.”"/>
+            tools:fontFamily="sans-serif"
+            tools:text="„Ha majd belefáradsz abba, hogy az legyél, aki nem vagy, akkor majd végre élvezheted az életet. Idővel rájössz, hogy ez nemcsak örömet szerez, hanem valami sokkal mélyebbet ad: értelmet az életednek.”" />
 
         <TextView
             android:id="@+id/authorTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textEnd"
+            android:fontFamily="@font/indie_flower"
             tools:text="Paulo Coelho"/>
     </LinearLayout>
 

@@ -128,8 +128,8 @@ public class AlarmReceiverActivity extends BaseActivity implements AlarmReceiver
         alarmTimeTextView.setText(String.format(getString(R.string.time_format), alarm.getAlarmHour(), alarm.getAlarmMinutes()));
         alarmTitleTextView.setText(alarm.getLabel());
 
-        quoteTextView.setText(quote.getQuote());
-        authorTextView.setText(quote.getAuthor());
+        quoteTextView.setText(String.format(getString(R.string.quote_template), quote.getQuote()));
+        authorTextView.setText(String.format(getString(R.string.author_template), quote.getAuthor()));
 
         if (alarm.getLabel().length() >= 300) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) buttonsLinearLayout.getLayoutParams();
