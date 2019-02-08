@@ -5,7 +5,7 @@
     <string name="snooze_never">Never</string>
     <string name="snooze_enable">Enable</string>
     <string name="snooze_forever">Forever</string>
-    <string name="snooze_time">Snooze Duration</string>
+    <string name="snooze_time">Snooze Duration (Minutes)</string>
     <string name="snooze_count">Snooze Count</string>
     <string name="snooze">Snooze</string>
     <string name="snooze_with_remaining">Snooze (%d remaining)</string>
@@ -26,4 +26,5 @@
     <string name="protect_app_description">%s requires to be enabled in \'Protected Apps\' to function properly.%n</string>
     <string name="quote_template">„%s”</string>
     <string name="author_template">- %s</string>
+    <string name="max_value_validation_error">Yeah, you shouldn\'t set this more than %d.</string>
 </resources>

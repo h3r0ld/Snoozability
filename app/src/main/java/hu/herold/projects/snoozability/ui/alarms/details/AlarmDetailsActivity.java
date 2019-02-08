@@ -208,6 +208,7 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
 
         if (snoozeTypeMSTB.getValue() != SnoozeType.NEVER) {
             isValid = validator.validateEditText(snoozeTimeTextInput, snoozeTimeEditText);
+            isValid &= validator.validateEditTextMaxValue(snoozeTimeTextInput, snoozeTimeEditText, 60);
         }
 
         if (snoozeTypeMSTB.getValue() == SnoozeType.CUSTOM) {

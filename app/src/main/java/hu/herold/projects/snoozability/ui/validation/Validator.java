@@ -29,4 +29,18 @@ public class Validator {
             return true;
         }
     }
+
+    public boolean validateEditTextMaxValue(TextInputLayout textInputLayout, TextInputEditText textInputEditText, int maxValue) {
+        String editTextValue = textInputEditText.getText() == null ? "" : textInputEditText.getText().toString();
+
+        int number = Integer.parseInt(editTextValue);
+
+        if (number > maxValue) {
+            textInputLayout.setError(String.format(context.getString(R.string.max_value_validation_error), maxValue));
+            return false;
+        } else {
+            textInputLayout.setError(null);
+            return true;
+        }
+    }
 }
