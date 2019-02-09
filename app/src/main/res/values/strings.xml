@@ -27,4 +27,5 @@
     <string name="quote_template">„%s”</string>
     <string name="author_template">- %s</string>
     <string name="max_value_validation_error">Yeah, you shouldn\'t set this more than %d.</string>
+    <string name="number_template">%d</string>
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="snoozeTypeArray">
-        <item>Never</item>
-        <item>Enable</item>
-        <item>Forever</item>
+        <item>Is for the weak</item>
+        <item>Is managable</item>
+        <item>Addiction is real</item>
     </string-array>
 </resources>

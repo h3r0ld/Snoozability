@@ -10,6 +10,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -148,15 +149,15 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
         if (alarm.getMaxSnoozeCount() == null) {
             // Infinite snoozes
             snoozeTypeMSTB.setValue(2);
-            snoozeTimeEditText.setText(alarm.getSnoozeTime().toString());
+            snoozeTimeEditText.setText(String.format(getString(R.string.number_template), alarm.getSnoozeTime()));
         } else if (alarm.getMaxSnoozeCount() == 0) {
             // Never snooze
             snoozeTypeMSTB.setValue(0);
         } else {
             // Custom snooze
             snoozeTypeMSTB.setValue(1);
-            snoozeTimeEditText.setText(alarm.getSnoozeTime().toString());
-            snoozeCountEditText.setText(alarm.getMaxSnoozeCount().toString());
+            snoozeTimeEditText.setText(String.format(getString(R.string.number_template), alarm.getSnoozeTime()));
+            snoozeCountEditText.setText(String.format(getString(R.string.number_template), alarm.getMaxSnoozeCount()));
         }
 
         alarmTitleEditText.setText(alarm.getLabel());
@@ -217,8 +218,6 @@ public class AlarmDetailsActivity extends BaseActivity implements AlarmDetailsSc
 
         if (isValid) {
             alarmDetailsPresenter.saveAlarm(alarm);
-        } else {
-            Snackbar.make(coordinatorLayout, R.string.validation_error, Snackbar.LENGTH_SHORT).show();
         }
     }
 

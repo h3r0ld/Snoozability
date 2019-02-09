@@ -13,135 +13,143 @@
     android:focusableInTouchMode="true"
     tools:context=".ui.alarms.details.AlarmDetailsActivity">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.design.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_margin"
-            app:contentPadding="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.design.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/card_margin"
+                app:contentPadding="10dp">
 
-                <TextView
-                    android:id="@+id/alarmTimeTextView"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="@string/default_alarm_time"
-                    android:textSize="@dimen/title_text_size"/>
+                    android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/alarmTitleTextInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:errorEnabled="true">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/alarmTitleEditText"
+                    <TextView
+                        android:id="@+id/alarmTimeTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/alarm_title" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-        </android.support.design.card.MaterialCardView>
+                        android:textAlignment="center"
+                        android:text="@string/default_alarm_time"
+                        android:textSize="@dimen/title_text_size"/>
 
-        <android.support.design.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_margin"
-            app:contentPadding="10dp">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/alarmTitleTextInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:errorEnabled="true">
 
-            <LinearLayout
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/alarmTitleEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/alarm_title" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+            </android.support.design.card.MaterialCardView>
+
+            <android.support.design.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/card_margin"
+                app:contentPadding="10dp">
 
-                <TextView
-                    android:id="@+id/snoozeTextView"
-                    android:text="@string/snooze"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <org.honorato.multistatetogglebutton.MultiStateToggleButton
-                    android:id="@+id/snoozeTypeMSTB"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
-                    app:mstbPrimaryColor="@color/colorPrimary"
-                    app:mstbSecondaryColor="@android:color/white"
-                    app:mstbColorPressedText="@color/colorAccent"
-                    app:values="@array/snoozeTypeArray" />
+                    android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/snoozeCountTextInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    app:errorEnabled="true">
+                    <TextView
+                        android:id="@+id/snoozeTextView"
+                        android:text="@string/snooze"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/snoozeCountEditText"
+                    <org.honorato.multistatetogglebutton.MultiStateToggleButton
+                        android:id="@+id/snoozeTypeMSTB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="@string/snooze_count" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_marginTop="10dp"
+                        app:mstbPrimaryColor="@color/colorPrimary"
+                        app:mstbSecondaryColor="@android:color/white"
+                        app:mstbColorPressedText="@color/colorAccent"
+                        app:values="@array/snoozeTypeArray" />
 
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/snoozeTimeTextInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_gravity="top"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    app:errorEnabled="true">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/snoozeTimeEditText"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/snoozeCountTextInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="@string/snooze_time" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+                        android:visibility="invisible"
+                        android:layout_marginTop="@dimen/padd_10"
+                        app:errorEnabled="true">
 
-        </android.support.design.card.MaterialCardView>
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/snoozeCountEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="@string/snooze_count" />
+                    </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_margin"
-            app:contentPadding="10dp">
 
-            <LinearLayout
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/snoozeTimeTextInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_gravity="top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:layout_marginTop="@dimen/padd_10"
+                        app:errorEnabled="true">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/snoozeTimeEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="@string/snooze_time" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+            </android.support.design.card.MaterialCardView>
+
+            <android.support.design.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/card_margin"
+                app:contentPadding="10dp">
 
-                <TextView
-                    android:id="@+id/volumeTextView"
-                    android:text="@string/alarm_volume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <SeekBar
-                    android:id="@+id/volumeSeekBar"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        </android.support.design.card.MaterialCardView>
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/volumeTextView"
+                        android:text="@string/alarm_volume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <SeekBar
+                        android:id="@+id/volumeSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </android.support.design.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fabSave"
