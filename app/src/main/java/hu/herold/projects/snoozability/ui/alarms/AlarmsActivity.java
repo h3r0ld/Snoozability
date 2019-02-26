@@ -87,32 +87,6 @@ public class AlarmsActivity extends BaseActivity implements AlarmsScreen, Recycl
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(alarmsRecyclerView);
 
-//        try {
-//            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//            database.setPersistenceEnabled(true);
-//            DatabaseReference myRef = database.getReference("quotes");
-//            // Read from the database
-//            myRef.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    int rnd = new Random().nextInt() % Long.valueOf(dataSnapshot.getChildrenCount()).intValue();
-//
-//                    Map<String, Object> quoteObjects = (Map<String, Object>) dataSnapshot.getValue();
-//
-//                    Object o = quoteObjects.values().toArray()[rnd];
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError error) {
-//                    // Failed to read value
-//                    Log.w("QuotesFirebase", "Failed to read value.", error.toException());
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
         if (!QuotesSyncService.IsRunning) {
             Intent serviceIntent = new Intent(AlarmsActivity.this, QuotesSyncService.class);
             this.startService(serviceIntent);
