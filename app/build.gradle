@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "hu.herold.projects.snoozability"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -73,4 +73,12 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
+
+    implementation 'com.polyak:icon-switch:1.0.0'
+
+    def firebaseVersion = '16.0.6'
+    implementation "com.google.firebase:firebase-database:${firebaseVersion}"
+    implementation "com.google.firebase:firebase-core:${firebaseVersion}"
 }
+
+apply plugin: 'com.google.gms.google-services'

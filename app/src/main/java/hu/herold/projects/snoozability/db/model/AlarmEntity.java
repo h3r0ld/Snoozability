@@ -35,6 +35,9 @@ public class AlarmEntity {
     @ColumnInfo(name = "maxSnoozeCount")
     private Integer maxSnoozeCount;
 
+    @ColumnInfo(name = "remainingSnoozeCount")
+    private Integer remainingSnoozeCount;
+
     @ColumnInfo(name = "alarmVolume")
     private Integer alarmVolume;
 

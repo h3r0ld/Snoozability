@@ -1,4 +1,4 @@
-package hu.herold.projects.snoozability.db.repository;
+package hu.herold.projects.snoozability.db.repository.alarm;
 
 import java.util.List;
 
@@ -8,9 +8,13 @@ public interface AlarmRepository {
 
     List<AlarmEntity> getAlarms() throws Exception;
 
+    List<AlarmEntity> getEnabledAlarms() throws Exception;
+
     AlarmEntity getAlarmById(long id) throws Exception;
 
-    void saveAlarm(AlarmEntity alarmEntity) throws Exception;
+    AlarmEntity saveAlarm(AlarmEntity alarmEntity) throws Exception;
+
+    void updateAlarms(List<AlarmEntity> alarmEntities) throws Exception;
 
     void deleteAlarm(AlarmEntity alarmEntity);
 

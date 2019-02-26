@@ -18,14 +18,20 @@ public interface AlarmDao {
     @Query("SELECT * FROM ALARM")
     List<AlarmEntity> getAlarms() throws Exception;
 
+    @Query("SELECT * FROM ALARM WHERE enabled = 1")
+    List<AlarmEntity> getEnabledAlarms() throws Exception;
+
     @Query("SELECT * FROM ALARM WHERE :id = id")
     AlarmEntity getAlarmById(long id) throws Exception;
 
     @Insert
-    void saveAlarm(AlarmEntity... alarmEntities);
+    long saveAlarm(AlarmEntity alarmEntity);
 
     @Update
     void updateAlarm(AlarmEntity alarmEntity);
+
+    @Update
+    void updateAlarms(List<AlarmEntity> alarmEntities);
 
     @Delete
     void deleteAlarm(AlarmEntity alarmEntity);

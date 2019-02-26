@@ -5,9 +5,10 @@
     <string name="snooze_never">Never</string>
     <string name="snooze_enable">Enable</string>
     <string name="snooze_forever">Forever</string>
-    <string name="snooze_time">Snooze Duration</string>
+    <string name="snooze_time">Snooze Duration (Minutes)</string>
     <string name="snooze_count">Snooze Count</string>
     <string name="snooze">Snooze</string>
+    <string name="snooze_with_remaining">Snooze (%d remaining)</string>
     <string name="label">Label</string>
     <string name="alarm_title">Alarm Title</string>
     <string name="default_alarm_time">8:00</string>
@@ -16,4 +17,15 @@
     <string name="time_format">%d:%02d</string>
     <string name="alarm_time_dialog_title">Alarm time</string>
     <string name="unexpected_error">Unexpected Error!</string>
+    <string name="delete">Delete</string>
+    <string name="dotdotdot">…</string>
+    <string name="stop">Stop</string>
+    <string name="alarm_volume">Alarm Volume</string>
+    <string name="do_not_show_again">Do not show again</string>
+    <string name="protect">Protect!</string>
+    <string name="protect_app_description">%s requires to be enabled in \'Protected Apps\' to function properly.%n</string>
+    <string name="quote_template">„%s”</string>
+    <string name="author_template">- %s</string>
+    <string name="max_value_validation_error">Yeah, you shouldn\'t set this more than %d.</string>
+    <string name="number_template">%d</string>
 </resources>

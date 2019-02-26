@@ -12,12 +12,14 @@ public class InteractorModule {
 
     @Provides
     @Singleton
-    public Mapper provideMapper() {
+    Mapper provideMapper() {
         return new Mapper();
     }
 
     @Provides
-    public AlarmsInteractor provideAlarmsInteractor() {
+    @Singleton
+    AlarmsInteractor provideAlarmsInteractor() {
         return new AlarmsInteractor();
     }
+
 }

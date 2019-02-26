@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hu.herold.projects.snoozability.db.model.AlarmEntity;
+import hu.herold.projects.snoozability.db.model.QuoteEntity;
 import hu.herold.projects.snoozability.model.Alarm;
+import hu.herold.projects.snoozability.model.Quote;
 
 public class Mapper {
 
@@ -20,6 +22,7 @@ public class Mapper {
                 .alarmVolume(alarm.getAlarmVolume())
                 .label(alarm.getLabel())
                 .maxSnoozeCount(alarm.getMaxSnoozeCount())
+                .remainingSnoozeCount(alarm.getRemainingSnoozeCount())
                 .snoozeTime(alarm.getSnoozeTime())
                 .enabled(alarm.isEnabled())
                 .build();
@@ -51,6 +54,7 @@ public class Mapper {
                 .alarmVolume(alarmEntity.getAlarmVolume())
                 .label(alarmEntity.getLabel())
                 .maxSnoozeCount(alarmEntity.getMaxSnoozeCount())
+                .remainingSnoozeCount(alarmEntity.getRemainingSnoozeCount())
                 .snoozeTime(alarmEntity.getSnoozeTime())
                 .enabled(alarmEntity.isEnabled())
                 .build();
@@ -68,5 +72,12 @@ public class Mapper {
         }
 
         return alarms;
+    }
+
+    public Quote mapToQuote(QuoteEntity quoteEntity) {
+        return Quote.builder()
+                .Author(quoteEntity.getAuthor())
+                .Quote(quoteEntity.getQuote())
+                .build();
     }
 }

@@ -1,4 +1,4 @@
-package hu.herold.projects.snoozability.db.repository;
+package hu.herold.projects.snoozability.db.repository.alarm;
 
 import java.util.List;
 
@@ -22,13 +22,30 @@ public class AlarmRepositoryImpl implements AlarmRepository {
     }
 
     @Override
+    public List<AlarmEntity> getEnabledAlarms() throws Exception {
+        return alarmDao.getEnabledAlarms();
+    }
+
+    @Override
     public AlarmEntity getAlarmById(long id) throws Exception {
         return alarmDao.getAlarmById(id);
     }
 
     @Override
-    public void saveAlarm(AlarmEntity alarmEntity) throws Exception {
-        alarmDao.saveAlarm(alarmEntity);
+    public AlarmEntity saveAlarm(AlarmEntity alarmEntity) {
+        if (alarmEntity.getId() != null) {
+            alarmDao.updateAlarm(alarmEntity);
+            return alarmEntity;
+        } else {
+            long insertedId = alarmDao.saveAlarm(alarmEntity);
+            alarmEntity.setId(insertedId);
+            return alarmEntity;
+        }
+    }
+
+    @Override
+    public void updateAlarms(List<AlarmEntity> alarmEntities) throws Exception {
+        alarmDao.updateAlarms(alarmEntities);
     }
 
     @Override

@@ -3,6 +3,7 @@ package hu.herold.projects.snoozability.ui.alarms;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.card.MaterialCardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.polyak.iconswitch.IconSwitch;
 
 import java.util.List;
 
@@ -34,9 +36,19 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
     private Context context;
     private List<Alarm> alarms;
 
+    private int lastDeletedIndex;
+
+    protected AlarmEnabledChangeListener alarmEnabledChangeListener;
+
     public AlarmsAdapter(Context context, List<Alarm> alarms) {
         this.context = context;
         this.alarms= alarms;
+
+        if (!(context instanceof AlarmEnabledChangeListener)) {
+            throw new IllegalArgumentException("Activity must implement AlarmEnabledChangeListener!");
+        } else {
+            alarmEnabledChangeListener = (AlarmEnabledChangeListener) context;
+        }
     }
 
     @NonNull
@@ -48,14 +60,18 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         Alarm alarm = alarms.get(position);
 
         viewHolder.setAlarm(alarm);
 
         viewHolder.alarmTitleTextView.setText(alarm.getLabel());
         viewHolder.alarmTimeTextView.setText(String.format(context.getString(R.string.time_format), alarm.getAlarmHour(), alarm.getAlarmMinutes()));
-        viewHolder.alarmEnabledSwitch.setChecked(alarm.isEnabled());
+        if (alarm.isEnabled()) {
+            viewHolder.alarmEnabledSwitch.setChecked(IconSwitch.Checked.RIGHT);
+        } else {
+            viewHolder.alarmEnabledSwitch.setChecked(IconSwitch.Checked.LEFT);
+        }
     }
 
     @Override
@@ -63,18 +79,37 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
         return alarms.size();
     }
 
+    public void removeItem(int position) {
+        alarms.remove(position);
+        notifyItemRemoved(position);
+        lastDeletedIndex = position;
+    }
+
+    public void removeItem(Alarm alarm) {
+        int position = alarms.indexOf(alarm);
+        removeItem(position);
+    }
+
+    public void restoreItem(Alarm alarm) {
+        alarms.add(lastDeletedIndex, alarm);
+        notifyItemInserted(lastDeletedIndex);
+    }
 
     @Data
     @EqualsAndHashCode(callSuper = true)
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    protected class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.alarmTimeTextView)
         TextView alarmTimeTextView;
         @BindView(R.id.alarmEnabledSwitch)
-        SwitchCompat alarmEnabledSwitch;
+        IconSwitch alarmEnabledSwitch;
         @BindView(R.id.alarmTitleTextView)
         TextView alarmTitleTextView;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.viewBackground)
+        RelativeLayout viewBackground;
+        @BindView(R.id.viewForeground)
+        MaterialCardView viewForeground;
 
         private final Context context;
         private Alarm alarm;
@@ -83,11 +118,13 @@ public class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.ViewHolder
             super(itemView);
             this.context = context;
             ButterKnife.bind(this, itemView);
-        }
 
-        @OnCheckedChanged(R.id.alarmEnabledSwitch)
-        public void onCheckedChanged() {
-            // TODO: Enable/disable logic, service call!
+            this.alarmEnabledSwitch.setCheckedChangeListener(new IconSwitch.CheckedChangeListener() {
+                @Override
+                public void onCheckChanged(IconSwitch.Checked current) {
+                    alarmEnabledChangeListener.alarmEnabledChanged(alarm, current.equals(IconSwitch.Checked.RIGHT));
+                }
+            });
         }
 
         @OnClick(R.id.layout)
